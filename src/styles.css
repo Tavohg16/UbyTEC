@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+html {
+    margin: 0px;
+    min-height: 100%;
+    width: 100%;
+  }
+  
+  body {
+    margin: 0px;
+    min-height: 98vh;
+    width: 100%;
+    background-image: url("https://cdn.pixabay.com/photo/2020/02/28/08/50/courier-driver-4886839_1280.jpg");
+    background-repeat: no-repeat; 
+    background-size: cover;
+  }
