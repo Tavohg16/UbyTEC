@@ -32,7 +32,7 @@ export class AuthGuardService implements CanActivate {
         this.router.navigate(['login']);
         return false;
       } else {
-        // Manejo de casos de trabajador o cliente para cada ruta
+        // Manejo de casos de tipos de usuarios
         switch (route.routeConfig?.path) {
           default:
             return true;

@@ -34,10 +34,10 @@ export class LoginService {
   constructor(private http: HttpClient, private router: Router) {}
 
   /**
-   * Metodo para autenticar un trabajador o un cliente. Se hace el query al backend para validar los credenciales,
+   * Metodo para autenticar un usuario. Se hace el query al backend para validar los credenciales,
    * se retorna el observable del query.
-   * @param usuario Cedula correspondiente al trabajador o usuario correspondiente al cliente que se quiere autenticar.
-   * @param password password correspondiente al trabajador que se quiere autenticar.
+   * @param usuario Cedula correspondiente al usuario correspondiente que se quiere autenticar.
+   * @param password password correspondiente al usuario que se quiere autenticar.
    * @returns observable del query: Observable<LoginResponse>.
    */
   login(usuario: string, password: string) {
@@ -46,7 +46,7 @@ export class LoginService {
   }
 
   /**
-   * Metodo para desautenticar un trabajador. Simplemente se redefine la variable loggedIn como falsa y se
+   * Metodo para desautenticar un usuario. Simplemente se redefine la variable loggedIn como falsa y se
    * redirige al usuario a la página de login.
    */
   logout() {
