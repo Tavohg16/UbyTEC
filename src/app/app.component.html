@@ -1,3 +1,50 @@
-<!--TODO: AGREGAR NAVBAR PARA CADA VISTA-->
+<nav *ngIf="loginService.isLoggedIn" class="navbar sticky-top navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="home">DetailTEC</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button type="button" class="btn btn-light" (click)="logout()">
+      Logout
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!--Lista de opciones de navbar para admin uby-->
+      <ul
+        *ngIf="loginService.isLoggedIn && loginService.isAdminUby"
+        class="navbar-nav me-auto mb-2 mb-lg-0"
+      >
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="home">Inicio</a>
+        </li>
+      </ul>
+      <!--Lista de opciones de navbar para admin afiliado-->
+      <ul
+        *ngIf="loginService.isLoggedIn && loginService.isAdminAfiliado"
+        class="navbar-nav me-auto mb-2 mb-lg-0"
+      >
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="home">Inicio</a>
+        </li>
+      </ul>
+      <!--Lista de opciones de navbar para cliente-->
+      <ul
+        *ngIf="loginService.isLoggedIn && loginService.isCliente"
+        class="navbar-nav me-auto mb-2 mb-lg-0"
+      >
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="home">Inicio</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <!-- Componente relacionado a la ruta-->
 <router-outlet></router-outlet>
