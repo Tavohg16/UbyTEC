@@ -38,13 +38,38 @@ export class AdminsUbyService {
       this.httpOptions
     );
   }
+  /**
+   * Metodo crear un administrador UbyTEC.
+   * @returns observable del query: Observable<AdminUbyResponse[]>.
+   */
+     crearAdminUby(adminUby: AdminUby) {
+      const body = JSON.stringify(adminUby);
+      return this.http.post<AdminUbyResponse>(
+        this.AdminsUbyUrl,
+        body,
+        this.httpOptions
+      );
+    }
+  
+    /**
+     * Metodo editar un administrador UbyTEC.
+     * @returns observable del query: Observable<AdminUbyResponse[]>.
+     */
+    editarAdminUby(adminUby: AdminUby) {
+      const body = JSON.stringify(adminUby);
+      return this.http.patch<AdminUbyResponse>(
+        this.AdminsUbyUrl,
+        body,
+        this.httpOptions
+      );
+    }
 
   /**
    * Metodo borrar un administrador UbyTEC.
    * @returns observable del query: Observable<AdminsUbyResponse[]>.
    */
-   borrarAdminUby(cedula_admin_uby: string) {
-    const body = JSON.stringify({cedula_admin_uby});
+   borrarAdminUby(id: string) {
+    const body = JSON.stringify({id});
     return this.http.delete<AdminUbyResponse>(
       this.AdminsUbyUrl,
       {...this.httpOptions, body }

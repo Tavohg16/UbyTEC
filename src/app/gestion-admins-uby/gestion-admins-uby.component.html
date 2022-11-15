@@ -1,7 +1,7 @@
 <div class="container text-center">
     <div class="row align-items-center mt-5">
       <div class="col align-self-center">
-        <!-- <button type="button" class="btn btn-primary bg-white text-dark" >Crear proveedor</button> -->
+        <button type="button" class="btn btn-primary bg-white text-dark" (click)="crearAdminUby()">Crear Administrador UbyTEC</button> 
       </div>
     </div>
     <div class="row">
@@ -29,13 +29,12 @@
               <td>{{ adminUby.provincia }}</td>
               <td>{{ adminUby.canton }}</td>
               <td>{{ adminUby.distrito }}</td>
-              <td><p *ngFor="let datosTelefono of adminUby.adminUbyTelefonos">{{datosTelefono.telefono}}</p>
+              <td><p *ngFor="let telefono of adminUby.telefonos">{{telefono}}</p>
               </td>
-
               <td>
-                <!-- <button type="button" class="btn btn-primary">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button> -->
+                <button type="button" class="btn btn-primary" (click)="editarAdminUby(adminUby)">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
               </td>
               <td>
                 <button type="button" class="btn btn-primary border-danger bg-transparent" (click)="borrarAdminUby (adminUby.cedulaAdminUby)">

@@ -4,7 +4,8 @@ import {AdminsUbyService } from '../services/admins-uby/admins-uby.service';
 import {
     AdminsUbyResponse,
     AdminUbyResponse,
-    AdminUby
+    AdminUby,
+
 } from '../services/admins-uby/admins-uby.types'
 
 @Component({
@@ -13,6 +14,7 @@ import {
   styleUrls: ['./gestion-admins-uby.component.css']
 })
 export class GestionAdminsUbyComponent implements OnInit {
+
   protected adminsUby: AdminUby[] = [];
 
   constructor(
@@ -57,12 +59,23 @@ export class GestionAdminsUbyComponent implements OnInit {
      protected nombreCompleto(adminUby: AdminUby): string {
       return `${adminUby.nombre} ${adminUby.primerApellido} ${adminUby.segundoApellido}`;
     }
+
+    /**
+   * Función para navegar a la pantalla de crear administrador UbyTEC.
+   */
+    protected crearAdminUby() {
+      this.router.navigate(['admin-uby']);
+    }
+
+    protected editarAdminUby(adminUby: AdminUby) {
+      this.router.navigate(['admin-uby'], {state: adminUby});
+    }
   /**
    * Función para borrar un administrador UbyTEC haciendo uso del servicio de admins-uby.
-   * @param cedula_admin_uby cedula del administrador UbyTEC que se quiere eliminar.
+   * @param cedulaAdminUby cedula del administrador UbyTEC que se quiere eliminar.
    */
-   protected borrarAdminUby(cedula_admin_uby: string) {
-    this.adminsUbyService.borrarAdminUby(cedula_admin_uby).subscribe({
+   protected borrarAdminUby(id: string) {
+    this.adminsUbyService.borrarAdminUby(id).subscribe({
       next: (adminUbyResponse: AdminUbyResponse ) => {
         alert(adminUbyResponse.mensaje);
         this.ObtenerAdminsUby()
