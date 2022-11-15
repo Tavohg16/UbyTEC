@@ -33,9 +33,15 @@ export class AuthGuardService implements CanActivate {
         return false;
       } else {
         // Manejo de casos de tipos de usuarios
+        console.log(route.routeConfig?.path);
         switch (route.routeConfig?.path) {
-          default:
-            return true;
+          case 'gestion-admins-uby' || 'admin-uby':
+            if (!this.loginService.isAdminUby) {
+              this.router.navigate(['home']);
+            }
+            return this.loginService.isAdminUby;
+        default:
+          return true;
         }
       }
     }

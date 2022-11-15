@@ -1,0 +1,49 @@
+<div class="container text-center">
+    <div class="row align-items-center mt-5">
+      <div class="col align-self-center">
+        <!-- <button type="button" class="btn btn-primary bg-white text-dark" >Crear proveedor</button> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Cedula Administrador</th>
+              <th>Correo electronico</th>
+              <th>Nombre</th>
+              <th>Usuario</th>
+              <th>Contraseña</th>
+              <th>Provincia</th>
+              <th>Canton</th>
+              <th>Distrito</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let adminUby of adminsUby">
+              <th>{{ adminUby.cedulaAdminUby }}</th>
+              <td>{{ nombreCompleto (adminUby) }}</td>
+              <td>{{ adminUby.correoElectronico }}</td>
+              <td>{{ adminUby.usuarioAdminUby }}</td>
+              <td>{{ adminUby.passwordAdminUby }}</td>
+              <td>{{ adminUby.provincia }}</td>
+              <td>{{ adminUby.canton }}</td>
+              <td>{{ adminUby.distrito }}</td>
+
+              <td>
+                <!-- <button type="button" class="btn btn-primary">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button> -->
+              </td>
+              <td>
+                <button type="button" class="btn btn-primary border-danger bg-transparent" (click)="borrarAdminUby (adminUby.cedulaAdminUby)">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
