@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoginService } from './services/login/login.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'uby-tec';
+  title = 'UbyTec';
+  
+  constructor(protected loginService: LoginService) {}
+
+  /**
+   * Función para desloggearse.
+   */
+  logout() {
+    this.loginService.logout();
+  }
 }
