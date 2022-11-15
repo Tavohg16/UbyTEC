@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
         {
           title: "Gestión de Administradores",
           icon: "fa-solid fa-id-card",
-          route: "gestion-administradores"
+          route: "gestion-admins-uby"
         },
         {
           title: "Administración de Afiliaciones",
