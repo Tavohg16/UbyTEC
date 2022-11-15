@@ -5,30 +5,29 @@ import { Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-
 @Injectable({
-  providedIn: 'root'
-}) 
+  providedIn: 'root',
+})
 export class LoginService {
-
   // Definiendo variable a la que todos los componentes tendrán acceso para verificar estado de autenticacion
-  private loggedIn: boolean = false ;
+  private loggedIn: boolean = false;
   // Definiendo variable a la que todos los componentes tendrán acceso para verificar si usuario es admin de ubi
-  private adminUby: boolean = false ;
+  private adminUby: boolean = false;
   // Definiendo variable a la que todos los componentes tendrán acceso para verificar si usuario es admin de ubi
-  private afiliado: boolean = false ;
+  private cliente: boolean = false;
   // Definiendo variable a la que todos los componentes tendrán acceso para verificar si usuario es admin de ubi
-  private adminAfiliado: boolean = false ;
+  private adminAfiliado: boolean = false;
   // Definiendo ruta a la que se hara los request http relacionados al login
   private loginUrl: string = `${environment.apiUrl}/login`;
 
   private httpOptions = {
     headers: new HttpHeaders({
-      "Content-Type":  "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-    })
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers':
+        'X-Requested-With, content-type, Authorization',
+    }),
   };
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -80,34 +79,34 @@ export class LoginService {
    * Metodo para verificar si usuario es administrador uby
    * @returns variable adminUby: Boolean.
    */
-   get isAdminUby() {
+  get isAdminUby() {
     this.adminUby = window.localStorage.getItem('tipo') === '0';
     return this.adminUby ?? false;
   }
 
-   /**
-   * Metodo para verificar si usuario es afiliado
-   * @returns variable afiliado: Boolean.
-   */
-    get isAfiliado() {
-      this.afiliado = window.localStorage.getItem('tipo') === '1';
-      return this.afiliado ?? false;
-    }
-
-   /**
+  /**
    * Metodo para verificar si usuario es administrador afiliado
    * @returns variable adminAfiliado: Boolean.
    */
-    get isAdminAfiliado() {
-      this.adminAfiliado = window.localStorage.getItem('tipo') === '2';
-      return this.adminAfiliado ?? false;
-    }
+  get isAdminAfiliado() {
+    this.adminAfiliado = window.localStorage.getItem('tipo') === '1';
+    return this.adminAfiliado ?? false;
+  }
+
+  /**
+   * Metodo para verificar si usuario es cliente
+   * @returns variable cliente: Boolean.
+   */
+  get isCliente() {
+    this.cliente = window.localStorage.getItem('tipo') === '2';
+    return this.cliente ?? false;
+  }
 
   /**
    * Metodo para obtener la variable id.
    * @returns variable id: String.
    */
-   get idLogin() {
+  get idLogin() {
     return window.localStorage.getItem('id');
   }
 }
