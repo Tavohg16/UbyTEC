@@ -40,6 +40,11 @@ export class AuthGuardService implements CanActivate {
               this.router.navigate(['home']);
             }
             return this.loginService.isAdminUby;
+          case 'gestion-repartidores' || 'repartidor':
+            if (!this.loginService.isAdminUby) {
+              this.router.navigate(['home']);
+            }
+            return this.loginService.isAdminUby;
         default:
           return true;
         }

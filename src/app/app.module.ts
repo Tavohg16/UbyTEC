@@ -10,6 +10,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { HomeComponent } from './home/home.component';
 import {GestionAdminsUbyComponent} from './gestion-admins-uby/gestion-admins-uby.component';
 import { AdminUbyComponent } from './admin-uby/admin-uby.component';
+import {GestionRepartidoresComponent} from './gestion-repartidores/gestion-repartidores.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { AdminUbyComponent } from './admin-uby/admin-uby.component';
     LoginComponent,
     HomeComponent,
     GestionAdminsUbyComponent,
-    AdminUbyComponent
+    AdminUbyComponent,
+    GestionRepartidoresComponent
   ],
   imports: [
     BrowserModule,
