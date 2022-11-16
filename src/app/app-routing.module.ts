@@ -4,6 +4,7 @@ import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { GestionAdminsUbyComponent } from './gestion-admins-uby/gestion-admins-uby.component';
+import { AdminUbyComponent } from './admin-uby/admin-uby.component';
 /**
  * Definiendo rutas a componentes
  */
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, pathMatch: 'full', canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
   { path: 'gestion-admins-uby', component: GestionAdminsUbyComponent, pathMatch: 'full'},
+  { path: 'admin-uby', component: AdminUbyComponent ,  pathMatch: 'full', canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home'}
 ];
 

@@ -14,17 +14,9 @@ export interface AdminUby {
     provincia: string;
     canton: string;
     distrito: string;
-    adminUbyTelefonos: datosTelAdminUby[];
+    telefonos: String[];
 }
 
-export interface datosTelAdminUby {
-    id: number;
-    cedulaAdminUby: string;
-    telefono: string;
-    cedulaAdminUbyNavigation: null;
-
-
-}
 
 export interface AdminUbyResponse {
     actualizado: boolean;
