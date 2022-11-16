@@ -57,6 +57,14 @@ export class GestionRepartidoresComponent implements OnInit {
      protected nombreCompleto(repartidor: Repartidor): string {
       return `${repartidor.nombre} ${repartidor.primerApellido} ${repartidor.segundoApellido}`;
     }
+     protected isDisponible(repartidor:Repartidor): string{
+      if (repartidor.disponible == true){
+        return "Si"
+      }
+      else{
+        return "No"
+      }
+     }
   /**
    * Función para borrar un repartidor haciendo uso del servicio de gestion-repartidores.
    * @param usuarioRepart cedula del repartidor que se quiere eliminar.

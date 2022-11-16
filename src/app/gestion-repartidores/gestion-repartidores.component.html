@@ -28,7 +28,7 @@
               <td>{{ repartidor.provincia }}</td>
               <td>{{ repartidor.canton }}</td>
               <td>{{ repartidor.distrito }}</td>
-              <td>{{ repartidor.disponible }}</td>
+              <td>{{ isDisponible(repartidor) }}</td>
               <td><p *ngFor="let telefono of repartidor.telefonos">{{telefono}}</p>
               </td>
 
