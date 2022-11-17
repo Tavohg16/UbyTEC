@@ -1,0 +1,50 @@
+<div class="container text-center">
+    <div class="row align-items-center mt-5">
+      <div class="col align-self-center">
+        <!-- <button type="button" class="btn btn-primary bg-white text-dark" >Crear proveedor</button> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Usuario del pedido</th>
+              <th>Nombre</th>
+              <th>Correo electronico</th>
+              <th>Provincia</th>
+              <th>Canton</th>
+              <th>Distrito</th>
+              <th>Disponible</th>
+              <th>Telefonos</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let repartidor of repartidores">
+              <th>{{ repartidor.usuarioRepart }}</th>
+              <td>{{ nombreCompleto (repartidor) }}</td>
+              <td>{{ repartidor.correoRepart }}</td>
+              <td>{{ repartidor.provincia }}</td>
+              <td>{{ repartidor.canton }}</td>
+              <td>{{ repartidor.distrito }}</td>
+              <td>{{ isDisponible(repartidor) }}</td>
+              <td><p *ngFor="let telefono of repartidor.telefonos">{{telefono}}</p>
+              </td>
+
+              <td>
+                <!-- <button type="button" class="btn btn-primary">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button> -->
+              </td>
+              <td>
+                <button type="button" class="btn btn-primary border-danger bg-transparent" (click)="borrarRepartidor (repartidor.usuarioRepart)">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

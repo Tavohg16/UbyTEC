@@ -5,14 +5,16 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { GestionAdminsUbyComponent } from './gestion-admins-uby/gestion-admins-uby.component';
 import { AdminUbyComponent } from './admin-uby/admin-uby.component';
+import { GestionRepartidoresComponent} from './gestion-repartidores/gestion-repartidores.component';
 /**
  * Definiendo rutas a componentes
  */
 const routes: Routes = [
   { path: 'login', component: LoginComponent, pathMatch: 'full', canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
-  { path: 'gestion-admins-uby', component: GestionAdminsUbyComponent, pathMatch: 'full'},
+  { path: 'gestion-admins-uby', component: GestionAdminsUbyComponent, pathMatch: 'full', canActivate: [AuthGuard] },
   { path: 'admin-uby', component: AdminUbyComponent ,  pathMatch: 'full', canActivate: [AuthGuard] },
+  { path: 'gestion-repartidores', component: GestionRepartidoresComponent, pathMatch: 'full', canActivate: [AuthGuard]},
   { path: '**', redirectTo: 'home'}
 ];
 
