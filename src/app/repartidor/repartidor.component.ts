@@ -1,22 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AdminsUbyService } from '../services/admins-uby/admins-uby.service';
+import { RepartidoresService } from '../services/repartidores/repartidores.service';
 import { LocalizacionService } from '../services/localizacion/localizacion.service';
 import { 
   Localidad,
   LocalidadesResponse
 } from '../services/localizacion/localizacion.types'
-import { AdminUby, AdminUbyResponse, } from '../services/admins-uby/admins-uby.types';
-
-
+import { Repartidor, RepartidorResponse, } from '../services/repartidores/repartidores.types';
 
 @Component({
-  selector: 'app-admin-uby',
-  templateUrl: './admin-uby.component.html',
-  styleUrls: ['./admin-uby.component.css']
+  selector: 'app-repartidor',
+  templateUrl: './repartidor.component.html',
+  styleUrls: ['./repartidor.component.css']
 })
-export class AdminUbyComponent implements OnInit {
+export class RepartidorComponent implements OnInit {
   // Definiendo variables a utilizar
   protected params: any;
   protected formType: string;
@@ -30,52 +28,49 @@ export class AdminUbyComponent implements OnInit {
   protected nombre_canton: string = "";
   protected id_distrito: string = "";
   protected nombre_distrito: string = "";
-  protected adminUbyForm: FormGroup;
+  protected repartidorForm: FormGroup;
   protected loading: boolean = false;
+  protected disponible: boolean = false;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private localidadService: LocalizacionService,
-    private adminsUbyService: AdminsUbyService
+    private repartidoresService: RepartidoresService
   ) {
 
 
     /**
-     * Obteniendo parámetros del routing para saber si se está creando o editando un administrador UbyTEC
+     * Obteniendo parámetros del routing para saber si se está creando o editando un repartidor
      * y así armar los formularios respectivamente.
      */
      this.params = router.getCurrentNavigation()?.extras.state;
      if (!this.params) {
        this.formType = 'crear';
-       this.title = 'Crear administrador UbyTEC';
-       this.adminUbyForm = this.formBuilder.group({
-        cedulaAdminUby: [null,[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],],
+       this.title = 'Crear repartidor';
+       this.repartidorForm = this.formBuilder.group({
+        usuarioRepart: [null,Validators.required], 
         nombre: [null, Validators.required],
         primerApellido: [null, Validators.required],
         segundoApellido: [null, Validators.required],
-        correoElectronico: [null,Validators.required],
-        usuarioAdminUby: [null, Validators.required],
-        passwordAdminUby: [null, Validators.required],
+        correoRepart: [null,Validators.required],
+        passwordRepart: [null, Validators.required],
         provincia: [0, Validators.required],
         canton: [0, Validators.required],
         distrito: [0, Validators.required],
         telefono_1: [null,[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],],
         telefono_2: [null, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
-
-
        });
      } else {
        this.formType = 'editar';
-       this.title = 'Editar administrador UbyTEC';
-       this.adminUbyForm = this.formBuilder.group({
-        cedulaAdminUby: [{ value: this.params.cedulaAdminUby, disabled: true },Validators.required,],
+       this.title = 'Editar repartidor';
+       this.repartidorForm = this.formBuilder.group({
+        usuarioRepart: [{ value: this.params.usuarioRepart, disabled: true },Validators.required,],
         nombre: [this.params.nombre, Validators.required],
         primerApellido: [this.params.primerApellido, Validators.required],
         segundoApellido: [this.params.segundoApellido, Validators.required],
-        correoElectronico: [this.params.correoElectronico,Validators.required],
-        usuarioAdminUby: [this.params.usuarioAdminUby, Validators.required],
-        passwordAdminUby: [this.params.passwordAdminUby, Validators.required],
+        correoRepart: [this.params.correoRepart,Validators.required],
+        passwordRepart: [this.params.passwordRepart, Validators.required],
         provincia: ["", Validators.required],
         canton: ["", Validators.required],
         distrito: ["", Validators.required],
@@ -106,20 +101,20 @@ export class AdminUbyComponent implements OnInit {
 
         if(this.params){
           this.id_provincia = this.identificarProvincia(this.params.provincia);
-          this.adminUbyForm.value.provincia = this.id_provincia;
+          this.repartidorForm.value.provincia = this.id_provincia;
 
           this.localidadService.ObtenerCantones(this.id_provincia).subscribe({
             next: (localidadesResponse: LocalidadesResponse) => {
               this.lista_cantones = localidadesResponse.data;
               this.id_canton = this.identificarCanton(this.params.canton);
-              this.adminUbyForm.value.canton = this.id_canton;
+              this.repartidorForm.value.canton = this.id_canton;
 
               this.localidadService.ObtenerDistritos(this.id_provincia,this.id_canton).subscribe({
                 next: (localidadesResponse: LocalidadesResponse) => {
                   this.lista_distritos = localidadesResponse.data;
                   this.id_distrito = this.identificarDistrito(this.params.distrito);
-                  this.adminUbyForm.value.distrito = this.id_distrito;
-                  this.adminUbyForm.patchValue(this.adminUbyForm.value, { onlySelf: false, emitEvent: true });
+                  this.repartidorForm.value.distrito = this.id_distrito;
+                  this.repartidorForm.patchValue(this.repartidorForm.value, { onlySelf: false, emitEvent: true });
                 }
               });
             }
@@ -224,43 +219,43 @@ export class AdminUbyComponent implements OnInit {
     return numero;
   }
   // Getter para acceder facilmente a los form fields
-  get adminUbyFormControls() {
-    return this.adminUbyForm.controls;
+  get repartidorFormControls() {
+    return this.repartidorForm.controls;
   }
 
   onSubmit() {
     // Caso en el que el form es inválido
-    if (this.adminUbyForm.invalid) {
+    if (this.repartidorForm.invalid) {
       return;
     }
 
     this.loading = true;
     if (this.formType == 'crear') {
-      this.adminsUbyService
-        .crearAdminUby(this.formatoAdminUby(this.adminUbyForm.value))
+      this.repartidoresService
+        .crearRepartidor(this.formatoRepartidor(this.repartidorForm.value))
         .subscribe({
-          next: (adminUbyResponse: AdminUbyResponse) => {
-            alert(adminUbyResponse.mensaje);
-            this.router.navigate(['gestion-admins-uby']);
+          next: (repartidorResponse: RepartidorResponse) => {
+            alert(repartidorResponse.mensaje);
+            this.router.navigate(['gestion-repartidores']);
             this.loading = false;
           },
           error: (error) => {
-            alert(`Error al ${this.formType} administrador UbyTEC.`);
+            alert(`Error al ${this.formType} repartidor.`);
             console.log(error);
             this.loading = false;
           },
         });
     } else {
-      this.adminsUbyService
-        .editarAdminUby(this.formatoAdminUby(this.adminUbyForm.value))
+      this.repartidoresService
+        .editarRepartidor(this.formatoRepartidor(this.repartidorForm.value))
         .subscribe({
-          next: (adminUbyResponse: AdminUbyResponse) => {
-            alert(adminUbyResponse.mensaje);
-            this.router.navigate(['gestion-admins-uby']);
+          next: (repartidorResponse: RepartidorResponse) => {
+            alert(repartidorResponse.mensaje);
+            this.router.navigate(['gestion-repartidores']);
             this.loading = false;
           },
           error: (error) => {
-            alert(`Error al ${this.formType} administrador UbyTEC.`);
+            alert(`Error al ${this.formType} repartidor.`);
             console.log(error);
             this.loading = false;
           },
@@ -269,42 +264,42 @@ export class AdminUbyComponent implements OnInit {
   }
 
   /**
-   * Función para armar el body que se va a enviar al servidor para actualizar o agregar un administrador UbyTEC
+   * Función para armar el body que se va a enviar al servidor para actualizar o agregar un repartidor
    * con el formato respectivo.
-   * @param adminUbyFormValues Los valores que ingresó el usuario al formulario.
-   * @returns Un objeto que tiene el formato correcto para enviarlo al servidor: AdminUby.
+   * @param repartidorFormValues Los valores que ingresó el usuario al formulario.
+   * @returns Un objeto que tiene el formato correcto para enviarlo al servidor: Repartidor.
    */
-   formatoAdminUby(adminUbyFormValues: any) {
+   formatoRepartidor(repartidorFormValues: any) {
     return this.formType === 'editar'
       ? ({
-          cedulaAdminUby: this.params.cedulaAdminUby,
-          nombre: adminUbyFormValues.nombre,
-          primerApellido: adminUbyFormValues.primerApellido,
-          segundoApellido: adminUbyFormValues.segundoApellido,
-          correoElectronico: adminUbyFormValues.correoElectronico,
-          usuarioAdminUby: adminUbyFormValues.usuarioAdminUby,
-          passwordAdminUby: adminUbyFormValues.passwordAdminUby,
+          usuarioRepart: this.params.usuarioRepart,
+          nombre: repartidorFormValues.nombre,
+          primerApellido: repartidorFormValues.primerApellido,
+          segundoApellido: repartidorFormValues.segundoApellido,
+          correoRepart: repartidorFormValues.correoRepart,
+          passwordRepart: repartidorFormValues.passwordRepart,
           provincia: this.nombre_provincia,
           canton: this.nombre_canton,
           distrito: this.nombre_distrito,
-          telefonos: adminUbyFormValues.telefono_2
-          ? [adminUbyFormValues.telefono_2, adminUbyFormValues.telefono_1]
-          : [adminUbyFormValues.telefono_1],
-        } as AdminUby)
+          telefonos: repartidorFormValues.telefono_2
+          ? [repartidorFormValues.telefono_2, repartidorFormValues.telefono_1]
+          : [repartidorFormValues.telefono_1],
+          disponible: this.params.disponible,
+        } as Repartidor)
       : ({
-          cedulaAdminUby: adminUbyFormValues.cedulaAdminUby,
-          nombre: adminUbyFormValues.nombre,
-          primerApellido: adminUbyFormValues.primerApellido,
-          segundoApellido: adminUbyFormValues.segundoApellido,
-          correoElectronico: adminUbyFormValues.correoElectronico,
-          usuarioAdminUby: adminUbyFormValues.usuarioAdminUby,
-          passwordAdminUby: adminUbyFormValues.passwordAdminUby,
+          usuarioRepart: repartidorFormValues.usuarioRepart,
+          nombre: repartidorFormValues.nombre,
+          primerApellido: repartidorFormValues.primerApellido,
+          segundoApellido: repartidorFormValues.segundoApellido,
+          correoRepart: repartidorFormValues.correoRepart,
+          passwordRepart: repartidorFormValues.passwordRepart,
           provincia: this.nombre_provincia,
           canton: this.nombre_canton,
           distrito: this.nombre_distrito,
-          telefonos: adminUbyFormValues.telefono_2
-          ? [adminUbyFormValues.telefono_2, adminUbyFormValues.telefono_1]
-          : [adminUbyFormValues.telefono_1],
-        } as AdminUby);
+          telefonos: repartidorFormValues.telefono_2
+          ? [repartidorFormValues.telefono_2, repartidorFormValues.telefono_1]
+          : [repartidorFormValues.telefono_1],
+          disponible: true,
+        } as Repartidor);
   }
 }

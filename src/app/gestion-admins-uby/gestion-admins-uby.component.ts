@@ -4,7 +4,7 @@ import {AdminsUbyService } from '../services/admins-uby/admins-uby.service';
 import {
     AdminsUbyResponse,
     AdminUbyResponse,
-    AdminUby,
+    AdminUby
 
 } from '../services/admins-uby/admins-uby.types'
 

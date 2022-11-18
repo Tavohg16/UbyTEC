@@ -13,7 +13,7 @@ import {
   providedIn: 'root'
 })
 export class RepartidoresService {
-  // Definiendo ruta a la que se hara los request http relacionados a los administradores UbyTEC
+  // Definiendo ruta a la que se hara los request http relacionados a los repartidores
   private RepartidoresUrl: string = `${environment.apiUrl}/manage/repartidor`;
 
   private httpOptions = {
@@ -29,8 +29,8 @@ export class RepartidoresService {
   constructor(private http: HttpClient, private router: Router) { }
 
   /**
-   * Metodo para obtener la lista de todos los administradores UbyTEC.
-   * @returns observable del query: Observable<AdminsUbyResponse[]>.
+   * Metodo para obtener la lista de todos los repartidores.
+   * @returns observable del query: Observable<RepartidoresResponse[]>.
    */
    todosRepartidores() {
     return this.http.get<RepartidoresResponse>(
@@ -38,10 +38,35 @@ export class RepartidoresService {
       this.httpOptions
     );
   }
+    /**
+   * Metodo crear un repartidor.
+   * @returns observable del query: Observable<RepartidorResponse[]>.
+   */
+     crearRepartidor(repartidor: Repartidor) {
+      const body = JSON.stringify(repartidor);
+      return this.http.post<RepartidorResponse>(
+        this.RepartidoresUrl,
+        body,
+        this.httpOptions
+      );
+    }
+
+    /**
+     * Metodo editar un Repartidor.
+     * @returns observable del query: Observable<RepartidorResponse[]>.
+     */
+    editarRepartidor(repartidor: Repartidor) {
+      const body = JSON.stringify(repartidor);
+      return this.http.patch<RepartidorResponse>(
+        this.RepartidoresUrl,
+        body,
+        this.httpOptions
+      );
+    }
 
   /**
-   * Metodo borrar un administrador UbyTEC.
-   * @returns observable del query: Observable<AdminsUbyResponse[]>.
+   * Metodo borrar un repartidor.
+   * @returns observable del query: Observable<RepartidoresResponse[]>.
    */
    borrarRepartidor(id: string) {
     const body = JSON.stringify({id});

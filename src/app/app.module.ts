@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import {GestionAdminsUbyComponent} from './gestion-admins-uby/gestion-admins-uby.component';
 import { AdminUbyComponent } from './admin-uby/admin-uby.component';
 import {GestionRepartidoresComponent} from './gestion-repartidores/gestion-repartidores.component';
+import { RepartidorComponent} from './repartidor/repartidor.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {GestionRepartidoresComponent} from './gestion-repartidores/gestion-repar
     HomeComponent,
     GestionAdminsUbyComponent,
     AdminUbyComponent,
-    GestionRepartidoresComponent
+    GestionRepartidoresComponent,
+    RepartidorComponent
   ],
   imports: [
     BrowserModule,
