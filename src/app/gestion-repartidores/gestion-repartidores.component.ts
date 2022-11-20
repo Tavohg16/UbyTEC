@@ -65,6 +65,16 @@ export class GestionRepartidoresComponent implements OnInit {
         return "No"
       }
      }
+   /**
+   * Función para navegar a la pantalla de crear repartidor.
+   */
+    protected crearRepartidor() {
+      this.router.navigate(['repartidor']);
+    }
+
+    protected editarRepartidor(repartidor: Repartidor) {
+      this.router.navigate(['repartidor'], {state: repartidor});
+    }
   /**
    * Función para borrar un repartidor haciendo uso del servicio de gestion-repartidores.
    * @param usuarioRepart cedula del repartidor que se quiere eliminar.
