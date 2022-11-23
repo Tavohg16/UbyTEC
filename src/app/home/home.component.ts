@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
         {
           title: "Mis datos",
           icon: "fa-solid fa-store",
-          route: ""
+          route: `editar-administrador/${this.loginService.idLogin}`
         },
         {
           title: "Reemplazarme",
