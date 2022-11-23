@@ -1,0 +1,66 @@
+<div class="container text-center">
+  <div class="row align-items-center mt-5">
+    <div class="col align-self-center">
+      <button
+        type="button"
+        class="btn btn-primary bg-white text-dark"
+        (click)="crearAfiliado()"
+      >
+        Crear Afiliado
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Cédula jurídica</th>
+            <th>Nombre</th>
+            <th>Nombre administrador</th>
+            <th>SINPE móvil</th>
+            <th>Correo</th>
+            <th>Provincia</th>
+            <th>Canton</th>
+            <th>Distrito</th>
+            <th>Tipo</th>
+            <th>Telefonos</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let afiliado of afiliadosCompletos">
+            <th>{{ afiliado.comercio.cedulaJuridica }}</th>
+            <td>{{ afiliado.comercio.nombreComercio }}</td>
+            <td>{{ nombreCompletoAdmin(afiliado) }}</td>
+            <td>{{ afiliado.comercio.sinpeMovil }}</td>
+            <td>{{ afiliado.comercio.correo }}</td>
+            <td>{{ afiliado.comercio.provincia }}</td>
+            <td>{{ afiliado.comercio.canton }}</td>
+            <td>{{ afiliado.comercio.distrito }}</td>
+            <td>{{ asociarTipoComercio(afiliado.comercio.tipo) }}</td>
+            <td>
+              <p *ngFor="let telefono of afiliado.comercio.telefonos">
+                {{ telefono }}
+              </p>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="editarAfiliado(afiliado.comercio)"
+              >
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+            </td>
+            <!-- <td>
+                <button type="button" class="btn btn-primary border-danger bg-transparent" (click)="borrarAfiliado (afiliado.comercio.cedulaJuridica)">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

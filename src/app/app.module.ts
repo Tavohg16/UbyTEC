@@ -14,6 +14,8 @@ import { GestionRepartidoresComponent } from './gestion-repartidores/gestion-rep
 import { RepartidorComponent } from './repartidor/repartidor.component';
 import { GestionProductosComponent } from './gestion-productos/gestion-productos.component';
 import { ProductoComponent } from './producto/producto.component';
+import { GestionAfiliadosComponent } from './gestion-afiliados/gestion-afiliados.component';
+import { EditarAfiliadoComponent } from './editar-afiliado/editar-afiliado.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { ProductoComponent } from './producto/producto.component';
     RepartidorComponent,
     GestionProductosComponent,
     ProductoComponent
-
+    GestionAfiliadosComponent,
+    EditarAfiliadoComponent,
   ],
   imports: [
     BrowserModule,

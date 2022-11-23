@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Router,
-  CanActivate,
-  ActivatedRouteSnapshot,
-} from '@angular/router';
+import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { LoginService } from './login/login.service';
 
 /**
@@ -33,13 +29,22 @@ export class AuthGuardService implements CanActivate {
         return false;
       } else {
         // Manejo de casos de tipos de usuarios
-        console.log(route.routeConfig?.path);
         switch (route.routeConfig?.path) {
           case 'gestion-admins-uby' || 'admin-uby':
             if (!this.loginService.isAdminUby) {
               this.router.navigate(['home']);
             }
             return this.loginService.isAdminUby;
+          case 'gestion-afiliados':
+            if (!this.loginService.isAdminUby) {
+              this.router.navigate(['home']);
+            }
+            return this.loginService.isAdminUby;
+          case 'editar-afiliado':
+            if (!this.loginService.isAdminUby || !this.loginService.isAdminAfiliado) {
+              this.router.navigate(['home']);
+            }
+            return this.loginService.isAdminUby || this.loginService.isAdminAfiliado;
           case 'gestion-repartidores' || 'repartidor':
             if (!this.loginService.isAdminUby) {
               this.router.navigate(['home']);
