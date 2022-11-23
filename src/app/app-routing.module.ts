@@ -9,6 +9,10 @@ import { GestionRepartidoresComponent } from './gestion-repartidores/gestion-rep
 import { RepartidorComponent } from './repartidor/repartidor.component';
 import { GestionProductosComponent } from './gestion-productos/gestion-productos.component';
 import { ProductoComponent } from './producto/producto.component';
+import { GestionAfiliadosComponent } from './gestion-afiliados/gestion-afiliados.component';
+import { EditarAfiliadoComponent } from './editar-afiliado/editar-afiliado.component';
+import { ReemplazarAdminAfiliadoComponent } from './reemplazar-admin-afiliado/reemplazar-admin-afiliado.component';
+import { EditarAdministradorComponent } from './editar-administrador/editar-administrador.component';
 /**
  * Definiendo rutas a componentes
  */
@@ -17,10 +21,14 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
   { path: 'gestion-admins-uby', component: GestionAdminsUbyComponent, pathMatch: 'full', canActivate: [AuthGuard] },
   { path: 'admin-uby', component: AdminUbyComponent ,  pathMatch: 'full', canActivate: [AuthGuard] },
+  { path: 'gestion-afiliados', component: GestionAfiliadosComponent ,  pathMatch: 'full', canActivate: [AuthGuard] },
+  { path: 'editar-afiliado/:id', component: EditarAfiliadoComponent ,  pathMatch: 'full', canActivate: [AuthGuard] },
   { path: 'gestion-repartidores', component: GestionRepartidoresComponent, pathMatch: 'full', canActivate: [AuthGuard]},
   { path: 'repartidor', component: RepartidorComponent, pathMatch: 'full', canActivate: [AuthGuard]},
   { path: 'gestion-productos', component: GestionProductosComponent, pathMatch: 'full', canActivate: [AuthGuard]},
   { path: 'producto', component: ProductoComponent, pathMatch: 'full', canActivate: [AuthGuard]},
+  { path: 'reemplazar-admin-afiliado/:id', component: ReemplazarAdminAfiliadoComponent, pathMatch: 'full', canActivate: [AuthGuard]},
+  { path: 'editar-administrador/:id', component: EditarAdministradorComponent, pathMatch: 'full', canActivate: [AuthGuard]},
   { path: '**', redirectTo: 'home'}
 ];
 

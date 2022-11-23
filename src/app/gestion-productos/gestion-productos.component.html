@@ -13,17 +13,15 @@
           <div class="mat-card-title">
             {{ producto.nombreCategoria }}
             <p class="card-text">
-                {{producto.precio}}
+                {{producto.precio}} colones
             </p>
-            <div class="mat-card-header">
-            <button type="button" class="btn btn-primary border-danger bg-transparent" (click)="borrarProducto (producto.idProducto)">
-                <i class="fa-solid fa-trash"></i>
-            </button>
-            </div>
            </div>
          </div>
        </div>
       </div>
+      <button type="button" class="btn btn-primary border-danger bg-white mt-3" (click)="borrarProducto (producto.idProducto)">
+        <i class="fa-solid fa-trash"></i>
+    </button>
     </div>
   </div>
 </div>

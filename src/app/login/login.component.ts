@@ -50,7 +50,6 @@ export class LoginComponent implements OnInit {
           if (loginResponse.logged) {
             this.loginService.setLoggedIn(loginResponse.logged, loginResponse.tipo, this.loginFormControls['usuario'].value);
             this.router.navigate(['home']);
-            console.log(window.localStorage);
           } else {
             alert('Su usuario, contraseña o ambas son inválidas');
           }

@@ -38,9 +38,8 @@ export class GestionProductosComponent implements OnInit {
               );
             }
           );
-          console.log(this.productos)
         } else {
-          alert('Error al obtener productos.');
+          alert('No hay productos.');
         }
       },
       error: (error) => {

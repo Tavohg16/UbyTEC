@@ -14,6 +14,11 @@ import { GestionRepartidoresComponent } from './gestion-repartidores/gestion-rep
 import { RepartidorComponent } from './repartidor/repartidor.component';
 import { GestionProductosComponent } from './gestion-productos/gestion-productos.component';
 import { ProductoComponent } from './producto/producto.component';
+import { GestionAfiliadosComponent } from './gestion-afiliados/gestion-afiliados.component';
+import { EditarAfiliadoComponent } from './editar-afiliado/editar-afiliado.component';
+import { ReemplazarAdminAfiliadoComponent } from './reemplazar-admin-afiliado/reemplazar-admin-afiliado.component';
+import { EditarAdministradorComponent } from './editar-administrador/editar-administrador.component';
+
 
 @NgModule({
   declarations: [
@@ -25,8 +30,11 @@ import { ProductoComponent } from './producto/producto.component';
     GestionRepartidoresComponent,
     RepartidorComponent,
     GestionProductosComponent,
-    ProductoComponent
-
+    ProductoComponent,
+    GestionAfiliadosComponent,
+    EditarAfiliadoComponent,
+    ReemplazarAdminAfiliadoComponent,
+    EditarAdministradorComponent,
   ],
   imports: [
     BrowserModule,
