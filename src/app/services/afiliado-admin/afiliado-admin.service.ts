@@ -5,7 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import {
   AfiliadoAdmin,
-  AfiliadoAdminResponse,
+  AfiliadoAdminResponseAAS,
   AfiliadoAdminReemplazo,
 } from './afiliado-admin.types';
 
@@ -34,7 +34,7 @@ export class AfiliadoAdminService {
    */
   editarAfiliadoAdmin(afiliadoAdmin: AfiliadoAdmin) {
     const body = JSON.stringify(afiliadoAdmin);
-    return this.http.patch<AfiliadoAdminResponse>(
+    return this.http.patch<AfiliadoAdminResponseAAS>(
       this.AfiliadosAdminsUrl,
       body,
       this.httpOptions
@@ -45,9 +45,9 @@ export class AfiliadoAdminService {
    * Metodo reemplazar un administrador de afiliado UbyTEC.
    * @returns observable del query: Observable<AfiliadoAdminResponse[]>.
    */
-  reemplazarAfiliadoAdmin(afiliado: AfiliadoAdminReemplazo) {
-    const body = JSON.stringify(afiliado);
-    return this.http.patch<AfiliadoAdminResponse>(
+  reemplazarAfiliadoAdmin(afiliadoAdmin: AfiliadoAdminReemplazo) {
+    const body = JSON.stringify(afiliadoAdmin);
+    return this.http.post<AfiliadoAdminResponseAAS>(
       `${this.AfiliadosAdminsUrl}/replace`,
       body,
       this.httpOptions

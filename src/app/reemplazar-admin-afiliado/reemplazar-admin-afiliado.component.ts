@@ -7,131 +7,85 @@ import {
   Localidad,
   LocalidadesResponse,
 } from '../services/localizacion/localizacion.types';
+import { AfiliadoAdminService } from '../services/afiliado-admin/afiliado-admin.service';
 import { AfiliadoService } from '../services/afiliado/afiliado.service';
-import { TiposComercioService } from '../services/tipos-comercio/tipos-comercio.service';
-import {
-  Afiliado,
-  AfiliadoAdminResponse,
-  AfiliadoResponse,
-} from '../services/afiliado/afiliado.types';
-import {
-  TipoComercio,
-  TiposComercioResponse,
-} from '../services/tipos-comercio/tipo-comercio.types';
+import { LoginService } from '../services/login/login.service';
+import { AfiliadoAdminResponse } from '../services/afiliado/afiliado.types';
+import { AfiliadoAdminReemplazo, AfiliadoAdminResponseAAS } from '../services/afiliado-admin/afiliado-admin.types';
 
 @Component({
-  selector: 'app-afiliado',
-  templateUrl: './editar-afiliado.component.html',
-  styleUrls: ['./editar-afiliado.component.css'],
+  selector: 'app-reemplazar-admin-afiliado',
+  templateUrl: './reemplazar-admin-afiliado.component.html',
+  styleUrls: ['./reemplazar-admin-afiliado.component.css']
 })
-export class EditarAfiliadoComponent implements OnInit {
+export class ReemplazarAdminAfiliadoComponent implements OnInit {
   // Definiendo variables a utilizar
   protected afiliadoId: any;
   protected afiliado: any;
-  protected tiposComercio: TipoComercio[];
-  protected title: string = 'Editar afiliado';
+  protected title: string = 'Reemplazar administrador';
+  protected replaceFrom: string = 'ubyAdmin';
   protected lista_provincias: Localidad[] = [];
   protected lista_cantones: Localidad[] = [];
   protected lista_distritos: Localidad[] = [];
-  protected id_provincia: string = '';
+  protected id_provincia: string = '0';
   protected nombre_provincia: string = '';
-  protected id_canton: string = '';
+  protected id_canton: string = '0';
   protected nombre_canton: string = '';
-  protected id_distrito: string = '';
+  protected id_distrito: string = '0';
   protected nombre_distrito: string = '';
-  protected afiliadoForm: FormGroup;
+  protected adminForm: FormGroup;
   protected loading: boolean = false;
-  protected disponible: boolean = false;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private localidadService: LocalizacionService,
     private afiliadoService: AfiliadoService,
-    private tiposComercioService: TiposComercioService,
-    private activatedRoute: ActivatedRoute
-  ) {
-    this.tiposComercio = [];
-    this.tiposComercioService.todosTiposComercio().subscribe({
-      next: (tipoComercioResponse: TiposComercioResponse) => {
-        if (tipoComercioResponse.exito) {
-          this.tiposComercio = tipoComercioResponse.tipos;
-        } else {
-          alert('Error al obtener tipos de comercio.');
-        }
-      },
-      error: (error) => {
-        alert('Error al obtener tipos de comercio.');
-        console.log(error);
-      },
-    });
-    this.afiliadoForm = this.formBuilder.group({
-      cedulaJuridica: [{ value: null, disabled: true }, Validators.required],
-      nombreComercio: [null, Validators.required],
-      sinpeMovil: [null, Validators.required],
-      correo: [null, Validators.required],
-      provincia: ['', Validators.required],
-      canton: ['', Validators.required],
-      distrito: ['', Validators.required],
-      tipo: [null, Validators.required],
+    private afiliadoAdminService: AfiliadoAdminService,
+    private activatedRoute: ActivatedRoute,
+    private loginService: LoginService,
+  ) { 
+    this.adminForm = this.formBuilder.group({
+      nombre: [null, Validators.required],
+      primerApellido: [null, Validators.required],
+      segundoApellido: [null, Validators.required],
+      correoElectronico: [null, Validators.required],
+      usuarioAdminAfi: [null, Validators.required],
+      passwordAdminAfi: [null, Validators.required],
+      provincia: [null, Validators.required],
+      canton: [null, Validators.required],
+      distrito: [null, Validators.required],
       telefono_1: [
         null,
         [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
       ],
       telefono_2: [null, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
     });
+
     this.activatedRoute.paramMap.subscribe((paramMap) => {
       this.afiliadoId = paramMap.get('id');
       if (this.afiliadoId) {
-        this.afiliadoService.unAfiliadoCompleto(this.afiliadoId).subscribe({
-          next: (afiliadoCompletoResponse: AfiliadoAdminResponse) => {
-            if (afiliadoCompletoResponse.exito) {
-              this.afiliado = afiliadoCompletoResponse.afiliado.comercio;
-              this.afiliadoForm = this.formBuilder.group({
-                cedulaJuridica: [
-                  { value: this.afiliado.cedulaJuridica, disabled: true },
-                  Validators.required,
-                ],
-                nombreComercio: [
-                  this.afiliado.nombreComercio,
-                  Validators.required,
-                ],
-                sinpeMovil: [this.afiliado.sinpeMovil, Validators.required],
-                correo: [this.afiliado.correo, Validators.required],
-                provincia: ['', Validators.required],
-                canton: ['', Validators.required],
-                distrito: ['', Validators.required],
-                tipo: [this.afiliado.tipo, Validators.required],
-                telefono_1: [
-                  this.afiliado.telefonos[0],
-                  [
-                    Validators.required,
-                    Validators.pattern(/^-?(0|[1-9]\d*)?$/),
-                  ],
-                ],
-                telefono_2: [
-                  this.afiliado.telefonos[1]
-                    ? this.afiliado.telefonos[1]
-                    : null,
-                  Validators.pattern(/^-?(0|[1-9]\d*)?$/),
-                ],
-              });
+        this.obtenerAfiliado();
+      } else {
+        // Obteniendo cedula juridica afiliado
+        this.afiliadoService.cedulaAfiliadoUsuario(this.loginService.idLogin ? this.loginService.idLogin : '').subscribe({
+          next: (cedulaAfiliadoResponse: any) => {
+            if (cedulaAfiliadoResponse.id) {
+              this.afiliadoId = cedulaAfiliadoResponse.id;
+              this.obtenerAfiliado();
             } else {
-              alert('Error al obtener datos de afiliado.');
-              this.router.navigate(['home']);
+              alert('Error al obtener cedula juridica de afiliado.');
             }
           },
           error: (error) => {
-            alert('Error al obtener datos de afiliado.');
+            alert('Error al obtener cedula juridica de afiliado.');
             console.log(error);
-            this.router.navigate(['home']);
           },
         });
-      } else {
-        this.router.navigate(['home']);
       }
     });
   }
+
   /**
    * Obteniendo lista de provincias al inicial el componente.
    * Revisa si hay parametros en el componente, de ser asi,
@@ -140,30 +94,19 @@ export class EditarAfiliadoComponent implements OnInit {
    * para popular los selectores en el form cuando se quiere
    * editar un afiliado.
    */
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.localidadService.ObtenerProvincias().subscribe({
       next: (localidadesResponse: LocalidadesResponse) => {
         this.lista_provincias = localidadesResponse.data;
-        if (this.afiliadoId) {
-          this.id_provincia = this.identificarProvincia(
-            this.afiliado.provincia
-          );
-          this.afiliadoForm.value.provincia = this.id_provincia;
           this.localidadService.ObtenerCantones(this.id_provincia).subscribe({
             next: (localidadesResponse: LocalidadesResponse) => {
               this.lista_cantones = localidadesResponse.data;
-              this.id_canton = this.identificarCanton(this.afiliado.canton);
-              this.afiliadoForm.value.canton = this.id_canton;
               this.localidadService
                 .ObtenerDistritos(this.id_provincia, this.id_canton)
                 .subscribe({
                   next: (localidadesResponse: LocalidadesResponse) => {
                     this.lista_distritos = localidadesResponse.data;
-                    this.id_distrito = this.identificarDistrito(
-                      this.afiliado.distrito
-                    );
-                    this.afiliadoForm.value.distrito = this.id_distrito;
-                    this.afiliadoForm.patchValue(this.afiliadoForm.value, {
+                    this.adminForm.patchValue(this.adminForm.value, {
                       onlySelf: false,
                       emitEvent: true,
                     });
@@ -171,7 +114,25 @@ export class EditarAfiliadoComponent implements OnInit {
                 });
             },
           });
+
+      },
+    });
+  }
+
+  protected obtenerAfiliado() {
+    this.afiliadoService.unAfiliadoCompleto(this.afiliadoId).subscribe({
+      next: (afiliadoCompletoResponse: AfiliadoAdminResponse) => {
+        if (afiliadoCompletoResponse.exito) {
+          this.afiliado = afiliadoCompletoResponse.afiliado;
+        } else {
+          alert('Error al obtener datos de afiliado.');
+          this.router.navigate(['home']);
         }
+      },
+      error: (error) => {
+        alert('Error al obtener datos de afiliado.');
+        console.log(error);
+        this.router.navigate(['home']);
       },
     });
   }
@@ -182,7 +143,7 @@ export class EditarAfiliadoComponent implements OnInit {
    * localidadService para obtener la lista de cantones correspondiente
    * a la provincia seleccionada por el usurio.
    */
-  seleccionarProvincia(provincia: string): void {
+   seleccionarProvincia(provincia: string): void {
     this.id_provincia = provincia;
     const index = Number(this.id_provincia) - 1;
     this.nombre_provincia = this.lista_provincias[index].nombre;
@@ -274,20 +235,20 @@ export class EditarAfiliadoComponent implements OnInit {
   }
 
   // Getter para acceder facilmente a los form fields
-  get afiliadoFormControls() {
-    return this.afiliadoForm.controls;
+  get adminFormControls() {
+    return this.adminForm.controls;
   }
 
   onSubmit() {
     // Caso en el que el form es inválido
-    if (this.afiliadoForm.invalid) {
+    if (this.adminForm.invalid) {
       return;
     }
     this.loading = true;
-    this.afiliadoService
-      .editarAfiliadoCompleto(this.formatoAfiliado(this.afiliadoForm.value))
+    this.afiliadoAdminService
+      .reemplazarAfiliadoAdmin(this.formatoAfiliado(this.adminForm.value))
       .subscribe({
-        next: (afiliadoResponse: AfiliadoResponse) => {
+        next: (afiliadoResponse: AfiliadoAdminResponseAAS) => {
           alert(afiliadoResponse.mensaje);
           this.router.navigate(['gestion-afiliados']);
           this.loading = false;
@@ -304,23 +265,27 @@ export class EditarAfiliadoComponent implements OnInit {
   /**
    * Función para armar el body que se va a enviar al servidor para actualizar un afiliado
    * con el formato respectivo.
-   * @param afiliadoFormValues Los valores que ingresó el usuario al formulario.
+   * @param adminFormValues Los valores que ingresó el usuario al formulario.
    * @returns Un objeto que tiene el formato correcto para enviarlo al servidor: Afiliado.
    */
-  formatoAfiliado(afiliadoFormValues: any) {
+  formatoAfiliado(adminFormValues: any) {
     return {
-      cedulaJuridica: this.afiliado.cedulaJuridica,
-      nombreComercio: afiliadoFormValues.nombreComercio,
-      sinpeMovil: afiliadoFormValues.sinpeMovil,
-      correo: afiliadoFormValues.correo,
+      cedulaJuridica: this.afiliado.comercio.cedulaJuridica,
+      usuarioAnterior: this.afiliado.administrador.usuarioAdminAfi,
+      nombre: adminFormValues.nombre,
+      primerApellido: adminFormValues.primerApellido,
+      segundoApellido: adminFormValues.segundoApellido,
+      correoElectronico: adminFormValues.correoElectronico,
+      usuarioAdminAfi: adminFormValues.usuarioAdminAfi,
+      passwordAdminAfi: adminFormValues.passwordAdminAfi,
       provincia: this.nombre_provincia,
       canton: this.nombre_canton,
       distrito: this.nombre_distrito,
-      comentarioSolicitud: '',
-      tipo: afiliadoFormValues.tipo,
-      telefonos: afiliadoFormValues.telefono_2
-        ? [afiliadoFormValues.telefono_2, afiliadoFormValues.telefono_1]
-        : [afiliadoFormValues.telefono_1],
-    } as Afiliado;
+      activo: true,
+      telefonos: adminFormValues.telefono_2
+        ? [adminFormValues.telefono_2, adminFormValues.telefono_1]
+        : [adminFormValues.telefono_1],
+    } as AfiliadoAdminReemplazo;
   }
+
 }

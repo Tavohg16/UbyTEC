@@ -11,6 +11,7 @@ import { GestionProductosComponent } from './gestion-productos/gestion-productos
 import { ProductoComponent } from './producto/producto.component';
 import { GestionAfiliadosComponent } from './gestion-afiliados/gestion-afiliados.component';
 import { EditarAfiliadoComponent } from './editar-afiliado/editar-afiliado.component';
+import { ReemplazarAdminAfiliadoComponent } from './reemplazar-admin-afiliado/reemplazar-admin-afiliado.component';
 /**
  * Definiendo rutas a componentes
  */
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'repartidor', component: RepartidorComponent, pathMatch: 'full', canActivate: [AuthGuard]},
   { path: 'gestion-productos', component: GestionProductosComponent, pathMatch: 'full', canActivate: [AuthGuard]},
   { path: 'producto', component: ProductoComponent, pathMatch: 'full', canActivate: [AuthGuard]},
+  { path: 'reemplazar-admin-afiliado/:id', component: ReemplazarAdminAfiliadoComponent, pathMatch: 'full', canActivate: [AuthGuard]},
   { path: '**', redirectTo: 'home'}
 ];
 

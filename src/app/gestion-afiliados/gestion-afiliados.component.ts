@@ -102,19 +102,10 @@ export class GestionAfiliadosComponent implements OnInit {
   }
 
   /**
-   * Función para borrar un afiliado haciendo uso del servicio de afiliado.
-   * @param id cedula juridica del afiliado que se quiere eliminar.
+   * Función para reemplazar un administrador de afiliado haciendo uso del servicio de afiliado admin.
+   * @param id cedula juridica del afiliado del que se quiere reemplazar el admin.
    */
-  protected borrarAfiliado(id: string) {
-    this.afiliadoService.borrarAfiliado(id).subscribe({
-      next: (afiliadoResponse: AfiliadoResponse) => {
-        alert(afiliadoResponse.mensaje);
-        this.obtenerAfiliadosCompletos();
-      },
-      error: (error) => {
-        alert(`Error al eliminar afiliado.`);
-        console.log(error);
-      },
-    });
+  protected reemplazarAdministrador(id: string) {
+    this.router.navigate(['reemplazar-admin-afiliado', id]);
   }
 }

@@ -26,6 +26,7 @@
             <th>Tipo</th>
             <th>Telefonos</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -53,11 +54,15 @@
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
             </td>
-            <!-- <td>
-                <button type="button" class="btn btn-primary border-danger bg-transparent" (click)="borrarAfiliado (afiliado.comercio.cedulaJuridica)">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td> -->
+            <td>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="reemplazarAdministrador(afiliado.comercio.cedulaJuridica)"
+              >
+                <i class="fa-solid fa-repeat"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

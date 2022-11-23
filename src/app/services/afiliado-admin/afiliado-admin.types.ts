@@ -24,11 +24,11 @@ export interface AfiliadoAdminReemplazo {
   provincia: string;
   canton: string;
   distrito: string;
-  activo: true;
+  activo: boolean;
   telefonos: string[];
 }
 
-export interface AfiliadoAdminResponse {
+export interface AfiliadoAdminResponseAAS {
   actualizado: boolean;
   mensaje: string;
 }

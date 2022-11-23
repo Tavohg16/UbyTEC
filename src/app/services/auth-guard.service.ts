@@ -41,10 +41,25 @@ export class AuthGuardService implements CanActivate {
             }
             return this.loginService.isAdminUby;
           case 'editar-afiliado':
-            if (!this.loginService.isAdminUby || !this.loginService.isAdminAfiliado) {
+            if (
+              !this.loginService.isAdminUby &&
+              !this.loginService.isAdminAfiliado
+            ) {
               this.router.navigate(['home']);
             }
-            return this.loginService.isAdminUby || this.loginService.isAdminAfiliado;
+            return (
+              this.loginService.isAdminUby || this.loginService.isAdminAfiliado
+            );
+          case 'reemplazar-admin-afiliado':
+            if (
+              !this.loginService.isAdminUby &&
+              !this.loginService.isAdminAfiliado
+            ) {
+              this.router.navigate(['home']);
+            }
+            return (
+              this.loginService.isAdminUby || !this.loginService.isLoggedIn
+            );
           case 'gestion-repartidores' || 'repartidor':
             if (!this.loginService.isAdminUby) {
               this.router.navigate(['home']);
@@ -55,8 +70,8 @@ export class AuthGuardService implements CanActivate {
               this.router.navigate(['home']);
             }
             return this.loginService.isAdminAfiliado;
-        default:
-          return true;
+          default:
+            return true;
         }
       }
     }

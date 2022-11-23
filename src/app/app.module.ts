@@ -16,6 +16,8 @@ import { GestionProductosComponent } from './gestion-productos/gestion-productos
 import { ProductoComponent } from './producto/producto.component';
 import { GestionAfiliadosComponent } from './gestion-afiliados/gestion-afiliados.component';
 import { EditarAfiliadoComponent } from './editar-afiliado/editar-afiliado.component';
+import { ReemplazarAdminAfiliadoComponent } from './reemplazar-admin-afiliado/reemplazar-admin-afiliado.component';
+
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { EditarAfiliadoComponent } from './editar-afiliado/editar-afiliado.compo
     ProductoComponent,
     GestionAfiliadosComponent,
     EditarAfiliadoComponent,
+    ReemplazarAdminAfiliadoComponent,
   ],
   imports: [
     BrowserModule,
