@@ -7,7 +7,8 @@ import {LoginService} from '../login/login.service';
 import {
   ProductosResponse,
   ProductoResponse,
-  Producto
+  Producto,
+  CategoriasResponse
 } from './productos.types'
 
 @Injectable({
@@ -49,6 +50,43 @@ export class ProductosService {
     return this.http.delete<ProductoResponse>(
       this.ProductosUrl,
       {...this.httpOptions, body }
+    );
+  }
+  
+  /**
+   * Metodo crear un producto.
+   * @returns observable del query: Observable<ProductoResponse[]>.
+   */
+   crearProducto(producto: Producto) {
+    const body = JSON.stringify(producto);
+    return this.http.post<ProductoResponse>(
+      this.ProductosUrl,
+      body,
+      this.httpOptions
+    );
+  }
+
+  /**
+   * Metodo obtener todos las categorias posibles que puede tener un producto.
+   * @returns observable del query: Observable<RolesResponse[]>.
+   */
+     todasCategorias() {
+      return this.http.get<CategoriasResponse>(
+        `${this.ProductosUrl}/category`,
+        this.httpOptions
+      );
+    }
+
+  /**
+   * Metodo editar un producto.
+   * @returns observable del query: Observable<ProductoResponse[]>.
+   */
+  editarProducto(producto: Producto) {
+    const body = JSON.stringify(producto);
+    return this.http.patch<ProductoResponse>(
+      this.ProductosUrl,
+      body,
+      this.httpOptions
     );
   }
 }

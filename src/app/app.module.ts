@@ -13,6 +13,7 @@ import { AdminUbyComponent } from './admin-uby/admin-uby.component';
 import { GestionRepartidoresComponent } from './gestion-repartidores/gestion-repartidores.component';
 import { RepartidorComponent } from './repartidor/repartidor.component';
 import { GestionProductosComponent } from './gestion-productos/gestion-productos.component';
+import { ProductoComponent } from './producto/producto.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import { GestionProductosComponent } from './gestion-productos/gestion-productos
     AdminUbyComponent,
     GestionRepartidoresComponent,
     RepartidorComponent,
-    GestionProductosComponent
+    GestionProductosComponent,
+    ProductoComponent
+
   ],
   imports: [
     BrowserModule,

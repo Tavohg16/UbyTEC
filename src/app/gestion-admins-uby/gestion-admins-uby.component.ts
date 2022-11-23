@@ -60,13 +60,16 @@ export class GestionAdminsUbyComponent implements OnInit {
       return `${adminUby.nombre} ${adminUby.primerApellido} ${adminUby.segundoApellido}`;
     }
 
-    /**
+   /**
    * Función para navegar a la pantalla de crear administrador UbyTEC.
    */
     protected crearAdminUby() {
       this.router.navigate(['admin-uby']);
     }
 
+   /**
+   * Función para navegar a la pantalla de editar administrador UbyTEC.
+   */
     protected editarAdminUby(adminUby: AdminUby) {
       this.router.navigate(['admin-uby'], {state: adminUby});
     }

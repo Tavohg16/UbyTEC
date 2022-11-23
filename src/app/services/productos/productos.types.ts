@@ -10,7 +10,17 @@ export interface Producto {
     precio: string;
     cedulaJuridica: string;
     idCategoria: number;
+    nombreCategoria?: string;
+}
+
+export interface Categoria{
+    idCategoria: number;
     nombreCategoria: string;
+}
+
+export interface CategoriasResponse {
+    exito: boolean;
+    categorias: Categoria[];
 }
 
 export interface ProductoResponse {

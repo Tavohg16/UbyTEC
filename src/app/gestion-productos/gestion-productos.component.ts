@@ -50,7 +50,20 @@ export class GestionProductosComponent implements OnInit {
     });
   }
 
- 
+   /**
+   * Función para navegar a la pantalla de crear producto.
+   */
+       protected crearProducto() {
+        this.router.navigate(['producto']);
+      }
+
+   /**
+   * Función para navegar a la pantalla de editar producto.
+   */
+      protected editarProducto(producto: Producto) {
+        this.router.navigate(['producto'], {state: producto});
+      }
+
   /**
    * Función para borrar un producto haciendo uso del servicio de gestion-productos.
    * @param idProducto id del producto que se quiere eliminar.
