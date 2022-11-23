@@ -51,6 +51,18 @@ export class AfiliadoService {
       this.httpOptions
     );
   }
+
+  /**
+   * Metodo para obtener la cedula juridica de un afiliado de UbyTEC a partir de usuario de su admin.
+   * @returns observable del query.
+   */
+   cedulaAfiliadoUsuario(usuario: string) {
+    return this.http.get(
+      `${this.AfiliadosUrl}/usr/${usuario}`,
+      this.httpOptions
+    );
+  }
+
   /**
    * Metodo crear un afiliado UbyTEC.
    * @returns observable del query: Observable<AfiliadoResponse[]>.

@@ -7,6 +7,8 @@ import { Producto,
   Categoria, 
   CategoriasResponse,
 } from '../services/productos/productos.types';
+import { AfiliadoService } from '../services/afiliado/afiliado.service';
+import { LoginService } from '../services/login/login.service';
 
 @Component({
   selector: 'app-producto',
@@ -19,13 +21,16 @@ export class ProductoComponent implements OnInit {
   protected formType: string;
   protected title: string;
   protected productoForm: FormGroup;
+  protected afiliadoId: string = '';
   protected tipos_categoria: Categoria[] =[];
   protected loading: boolean = false;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private productosService: ProductosService
+    private productosService: ProductosService,
+    private afiliadoService: AfiliadoService,
+    private loginService: LoginService,
   ) {
 
 
@@ -78,6 +83,21 @@ export class ProductoComponent implements OnInit {
           },
           error: (error) => {
             alert('Error al obtener categorias.');
+            console.log(error);
+          },
+        });
+
+        // Obteniendo cedula juridica afiliado
+        this.afiliadoService.cedulaAfiliadoUsuario(this.loginService.idLogin ? this.loginService.idLogin : '').subscribe({
+          next: (cedulaAfiliadoResponse: any) => {
+            if (cedulaAfiliadoResponse.id) {
+              this.afiliadoId = cedulaAfiliadoResponse.id;
+            } else {
+              alert('Error al obtener cedula juridica de afiliado.');
+            }
+          },
+          error: (error) => {
+            alert('Error al obtener cedula juridica de afiliado.');
             console.log(error);
           },
         });
@@ -151,7 +171,7 @@ export class ProductoComponent implements OnInit {
           nombreProducto: productoFormValues.nombreProducto,
           urlFoto: productoFormValues.urlFoto,
           precio: productoFormValues.precio,
-          cedulaJuridica: "",
+          cedulaJuridica: this.afiliadoId,
           idCategoria: +productoFormValues.idCategoria,
         } as Producto);
   }
