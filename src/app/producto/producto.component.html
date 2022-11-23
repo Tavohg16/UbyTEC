@@ -1,0 +1,81 @@
+<div class="container text-center">
+    <div class="mt-5">
+      <div class="card w-75 mx-auto">
+        <div class="card-header">
+          <h2>{{ title }}</h2>
+        </div>
+        <div class="card-body">
+          <div class="container text-center">
+            <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
+              <div class="row mt-3">
+                <div class="col" >
+                  <label for="nombreProducto">Nombre del producto</label>
+                  <input
+                    type="text"
+                    formControlName="nombreProducto"
+                    class="form-control mt-2"
+                    [ngClass]="{
+                      'is-invalid': productoFormControls['nombreProducto'].errors
+                    }"
+                  />
+                </div>
+                <div class="col">
+                  <label for="urlFoto">URL de la foto</label>
+                  <input
+                    type="text"
+                    formControlName="urlFoto"
+                    class="form-control mt-2"
+                    [ngClass]="{
+                      'is-invalid': productoFormControls['urlFoto'].errors
+                    }"
+                  />
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col">
+                  <label for="precio">Precio</label>
+                  <input
+                    type="text"
+                    formControlName="precio"
+                    class="form-control mt-2 w-50 mx-auto"
+                    [ngClass]="{
+                      'is-invalid':
+                      productoFormControls['precio'].errors
+                    }"
+                  />
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col">
+                  <label for="idCategoria">Tipo de producto</label>
+                  <select
+                    formControlName="idCategoria"
+                    class="form-select form-control text-center mt-2 mx-auto"
+                    [ngClass]="{
+                      'is-invalid': productoFormControls['idCategoria'].errors
+                    }"
+                  >
+                    <option *ngFor="let tipo_categoria of tipos_categoria" [value]="tipo_categoria.idCategoria">
+                      {{ tipo_categoria.nombreCategoria }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group mt-5">
+                <button
+                  [disabled]="loading || productoForm.invalid"
+                  class="btn btn-primary"
+                >
+                  <span
+                    *ngIf="loading"
+                    class="spinner-border spinner-border-sm mr-1"
+                  ></span>
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -77,7 +77,7 @@ export class GestionRepartidoresComponent implements OnInit {
     }
   /**
    * Función para borrar un repartidor haciendo uso del servicio de gestion-repartidores.
-   * @param usuarioRepart cedula del repartidor que se quiere eliminar.
+   * @param idProducto cedula del repartidor que se quiere eliminar.
    */
    protected borrarRepartidor(id: string) {
     this.repartidoresService.borrarRepartidor(id).subscribe({

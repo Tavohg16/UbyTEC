@@ -63,6 +63,11 @@ export class HomeComponent implements OnInit {
           icon: "fa-solid fa-store",
           route: ""
         },
+        {
+          title: "Gestión de Productos",
+          icon: "fa-solid fa-id-card",
+          route: "gestion-productos"
+        },
       ];
     } else {
       this.options =  [

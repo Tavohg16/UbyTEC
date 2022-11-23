@@ -45,6 +45,11 @@ export class AuthGuardService implements CanActivate {
               this.router.navigate(['home']);
             }
             return this.loginService.isAdminUby;
+          case 'gestion-productos' || 'producto':
+            if (!this.loginService.isAdminAfiliado) {
+              this.router.navigate(['home']);
+            }
+            return this.loginService.isAdminAfiliado;
         default:
           return true;
         }

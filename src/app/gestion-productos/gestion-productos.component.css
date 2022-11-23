@@ -1,0 +1,11 @@
+.card {
+    cursor: pointer;
+  }
+  
+  .card-body {
+    background-color: #BDBDBD;
+  }
+
+  .fa-trash {
+    color: red;
+}
