@@ -40,7 +40,6 @@ export class GestionAdminsUbyComponent implements OnInit {
               );
             }
           );
-          console.log(this.adminsUby)
         } else {
           alert('Error al obtener Administradores UbyTEC.');
         }

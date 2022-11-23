@@ -39,7 +39,7 @@ export class GestionProductosComponent implements OnInit {
             }
           );
         } else {
-          alert('Error al obtener productos.');
+          alert('No hay productos.');
         }
       },
       error: (error) => {

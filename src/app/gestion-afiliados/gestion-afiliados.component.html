@@ -68,4 +68,48 @@
       </table>
     </div>
   </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Administra</th>
+            <th>Correo</th>
+            <th>Usuario</th>
+            <th>Provincia</th>
+            <th>Canton</th>
+            <th>Distrito</th>
+            <th>Telefonos</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let afiliado of afiliadosCompletos">
+            <th>{{ nombreCompletoAdmin(afiliado) }}</th>
+            <td>{{ afiliado.comercio.nombreComercio }}</td>
+            <td>{{ afiliado.administrador.correoElectronico }}</td>
+            <td>{{ afiliado.administrador.usuarioAdminAfi }}</td>
+            <td>{{ afiliado.administrador.provincia }}</td>
+            <td>{{ afiliado.administrador.canton }}</td>
+            <td>{{ afiliado.administrador.distrito }}</td>
+            <td>
+              <p *ngFor="let telefono of afiliado.administrador.telefonos">
+                {{ telefono }}
+              </p>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="editarAdministrador(afiliado.administrador)"
+              >
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

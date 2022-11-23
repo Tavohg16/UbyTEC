@@ -132,7 +132,6 @@ export class ProductoComponent implements OnInit {
           },
         });
     } else {
-      console.log(this.productoForm.value)
       this.productosService
         .editarProducto(this.formatoProducto(this.productoForm.value))
         .subscribe({

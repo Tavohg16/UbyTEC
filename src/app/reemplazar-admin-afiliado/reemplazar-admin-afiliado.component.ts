@@ -11,16 +11,20 @@ import { AfiliadoAdminService } from '../services/afiliado-admin/afiliado-admin.
 import { AfiliadoService } from '../services/afiliado/afiliado.service';
 import { LoginService } from '../services/login/login.service';
 import { AfiliadoAdminResponse } from '../services/afiliado/afiliado.types';
-import { AfiliadoAdminReemplazo, AfiliadoAdminResponseAAS } from '../services/afiliado-admin/afiliado-admin.types';
+import {
+  AfiliadoAdminReemplazo,
+  AfiliadoAdminResponseAAS,
+} from '../services/afiliado-admin/afiliado-admin.types';
 
 @Component({
   selector: 'app-reemplazar-admin-afiliado',
   templateUrl: './reemplazar-admin-afiliado.component.html',
-  styleUrls: ['./reemplazar-admin-afiliado.component.css']
+  styleUrls: ['./reemplazar-admin-afiliado.component.css'],
 })
 export class ReemplazarAdminAfiliadoComponent implements OnInit {
   // Definiendo variables a utilizar
   protected afiliadoId: any;
+  protected cedParam: any;
   protected afiliado: any;
   protected title: string = 'Reemplazar administrador';
   protected replaceFrom: string = 'ubyAdmin';
@@ -43,8 +47,8 @@ export class ReemplazarAdminAfiliadoComponent implements OnInit {
     private afiliadoService: AfiliadoService,
     private afiliadoAdminService: AfiliadoAdminService,
     private activatedRoute: ActivatedRoute,
-    private loginService: LoginService,
-  ) { 
+    private loginService: LoginService
+  ) {
     this.adminForm = this.formBuilder.group({
       nombre: [null, Validators.required],
       primerApellido: [null, Validators.required],
@@ -63,25 +67,30 @@ export class ReemplazarAdminAfiliadoComponent implements OnInit {
     });
 
     this.activatedRoute.paramMap.subscribe((paramMap) => {
+      this.cedParam = paramMap.get('id');
       this.afiliadoId = paramMap.get('id');
-      if (this.afiliadoId) {
+      if (this.afiliadoId !== "0") {
         this.obtenerAfiliado();
       } else {
         // Obteniendo cedula juridica afiliado
-        this.afiliadoService.cedulaAfiliadoUsuario(this.loginService.idLogin ? this.loginService.idLogin : '').subscribe({
-          next: (cedulaAfiliadoResponse: any) => {
-            if (cedulaAfiliadoResponse.id) {
-              this.afiliadoId = cedulaAfiliadoResponse.id;
-              this.obtenerAfiliado();
-            } else {
+        this.afiliadoService
+          .cedulaAfiliadoUsuario(
+            this.loginService.idLogin ? this.loginService.idLogin : ''
+          )
+          .subscribe({
+            next: (cedulaAfiliadoResponse: any) => {
+              if (cedulaAfiliadoResponse.id) {
+                this.afiliadoId = cedulaAfiliadoResponse.id;
+                this.obtenerAfiliado();
+              } else {
+                alert('Error al obtener cedula juridica de afiliado.');
+              }
+            },
+            error: (error) => {
               alert('Error al obtener cedula juridica de afiliado.');
-            }
-          },
-          error: (error) => {
-            alert('Error al obtener cedula juridica de afiliado.');
-            console.log(error);
-          },
-        });
+              console.log(error);
+            },
+          });
       }
     });
   }
@@ -94,27 +103,26 @@ export class ReemplazarAdminAfiliadoComponent implements OnInit {
    * para popular los selectores en el form cuando se quiere
    * editar un afiliado.
    */
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.localidadService.ObtenerProvincias().subscribe({
       next: (localidadesResponse: LocalidadesResponse) => {
         this.lista_provincias = localidadesResponse.data;
-          this.localidadService.ObtenerCantones(this.id_provincia).subscribe({
-            next: (localidadesResponse: LocalidadesResponse) => {
-              this.lista_cantones = localidadesResponse.data;
-              this.localidadService
-                .ObtenerDistritos(this.id_provincia, this.id_canton)
-                .subscribe({
-                  next: (localidadesResponse: LocalidadesResponse) => {
-                    this.lista_distritos = localidadesResponse.data;
-                    this.adminForm.patchValue(this.adminForm.value, {
-                      onlySelf: false,
-                      emitEvent: true,
-                    });
-                  },
-                });
-            },
-          });
-
+        this.localidadService.ObtenerCantones(this.id_provincia).subscribe({
+          next: (localidadesResponse: LocalidadesResponse) => {
+            this.lista_cantones = localidadesResponse.data;
+            this.localidadService
+              .ObtenerDistritos(this.id_provincia, this.id_canton)
+              .subscribe({
+                next: (localidadesResponse: LocalidadesResponse) => {
+                  this.lista_distritos = localidadesResponse.data;
+                  this.adminForm.patchValue(this.adminForm.value, {
+                    onlySelf: false,
+                    emitEvent: true,
+                  });
+                },
+              });
+          },
+        });
       },
     });
   }
@@ -143,7 +151,7 @@ export class ReemplazarAdminAfiliadoComponent implements OnInit {
    * localidadService para obtener la lista de cantones correspondiente
    * a la provincia seleccionada por el usurio.
    */
-   seleccionarProvincia(provincia: string): void {
+  seleccionarProvincia(provincia: string): void {
     this.id_provincia = provincia;
     const index = Number(this.id_provincia) - 1;
     this.nombre_provincia = this.lista_provincias[index].nombre;
@@ -250,14 +258,18 @@ export class ReemplazarAdminAfiliadoComponent implements OnInit {
       .subscribe({
         next: (afiliadoResponse: AfiliadoAdminResponseAAS) => {
           alert(afiliadoResponse.mensaje);
-          this.router.navigate(['gestion-afiliados']);
+          if (this.cedParam !== "0") {
+            this.router.navigate(['gestion-afiliados']);
+          } else {
+            this.loginService.logout();
+          }
           this.loading = false;
         },
         error: (error) => {
-          alert(`Error al editar afiliado.`);
+          alert(`Error al reemplazar administrador.`);
           console.log(error);
           this.loading = false;
-          this.router.navigate(['gestion-afiliados']);
+          this.router.navigate(['home']);
         },
       });
   }
@@ -287,5 +299,4 @@ export class ReemplazarAdminAfiliadoComponent implements OnInit {
         : [adminFormValues.telefono_1],
     } as AfiliadoAdminReemplazo;
   }
-
 }

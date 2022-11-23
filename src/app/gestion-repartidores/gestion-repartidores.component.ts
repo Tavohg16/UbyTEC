@@ -38,7 +38,6 @@ export class GestionRepartidoresComponent implements OnInit {
               );
             }
           );
-          console.log(this.repartidores)
         } else {
           alert('Error al obtener Repartidores.');
         }

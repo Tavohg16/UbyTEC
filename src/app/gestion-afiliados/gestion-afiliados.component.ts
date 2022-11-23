@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AfiliadoAdmin } from '../services/afiliado-admin/afiliado-admin.types';
 import { AfiliadoService } from '../services/afiliado/afiliado.service';
 import {
   Afiliado,
@@ -99,6 +100,10 @@ export class GestionAfiliadosComponent implements OnInit {
 
   protected editarAfiliado(afiliado: Afiliado) {
     this.router.navigate(['editar-afiliado', afiliado.cedulaJuridica]);
+  }
+
+  protected editarAdministrador(administrador: AfiliadoAdmin) {
+    this.router.navigate(['editar-administrador', administrador.usuarioAdminAfi]);
   }
 
   /**
