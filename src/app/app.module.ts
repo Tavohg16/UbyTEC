@@ -27,7 +27,7 @@ import { EditarAfiliadoComponent } from './editar-afiliado/editar-afiliado.compo
     GestionRepartidoresComponent,
     RepartidorComponent,
     GestionProductosComponent,
-    ProductoComponent
+    ProductoComponent,
     GestionAfiliadosComponent,
     EditarAfiliadoComponent,
   ],
